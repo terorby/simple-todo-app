@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>Let's see this awesome TODO list</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://fb.me/react-15.0.0-rc.2.js"></script>
+  <script src="https://fb.me/react-dom-15.0.0-rc.2.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+
+</head>
+
+<body>
+
+  <div id="container"></div>
+  <script type="text/babel">
+
+    var destination = document.querySelector("#container");
+
+    var TodoItems = React.createClass({
+      render: function() {
+        var todoEntries = this.props.entries;
+
+        var listItems = [];
+
+        for (var i = 0; i < todoEntries.length; i++) {
+          var entry = todoEntries[i];
+          listItems.push(<li key={"item" + i}>{entry}</li>);
+        }
+
+        return (
+          <ul className="theList">
+            {listItems}
+          </ul>
+        );
+      }
+    });
+
+    var TodoList = React.createClass({
+      getInitialState: function() {
+        return {
+          items: [],
+          textValue: ""
+        };
+      },
+      updateValue: function(e) {
+        this.setState({
+            textValue: e.target.value
+        });
+      },
+      addItemEnter: function(e) {
+        if (e.key == "Enter") {
+            this.addItem();
+        }
+      },
+      addItem: function(e) {
+        var itemArray = this.state.items;
+        itemArray.push(this.state.textValue);
+
+        if (itemArray == "") {}
+        else {}
+
+        this.setState({
+          items: itemArray
+        });
+
+        this._inputElement.value = "";
+      },
+
+      render: function() {
+          return (
+            <div className="todoListMain">
+              <div className="header">
+                <input ref={(a) => this._inputElement = a}
+                       onKeyPress={this.addItemEnter}
+                       placeholder="Please, add your own task here.."
+                       onChange={this.updateValue}>
+                </input>
+
+                <button onClick={this.addItem}>Add</button>
+              </div>
+
+              <TodoItems entries={this.state.items}/>
+
+            </div>
+          );
+        }
+    });
+
+    ReactDOM.render((
+      <div>
+        <TodoList/>
+      </div>
+    ), destination);
+  </script>
+
+</body>
+
+</html>
